@@ -1,0 +1,49 @@
+.toolbar {
+  display: flex;
+  justify-content: center;
+  background: white;
+  color: black;
+  height: 65px;
+  box-shadow: 0 2px 10px 0 rgba(0,0,0,0.08);
+}
+
+
+mat-icon, span {
+  color: #848484;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolbar-spacer {
+  direction: rtl;
+  flex: 1;
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+/* Additional styling for mat-icon if needed */
+mat-icon {
+  cursor: pointer;
+  padding-right: 20px; /* Spacing before the first item */
+}
+
+
+.side-nav {
+  min-width: 250px;
+}

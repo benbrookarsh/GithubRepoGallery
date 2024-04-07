@@ -1,0 +1,30 @@
+<section class="container">
+  <form [formGroup]="searchForm">
+    <mat-form-field appearance="fill">
+      <input
+        [matAutocomplete]="auto"
+        matInput placeholder="Search repos on GitHub" formControlName="search" (input)="onInput()">
+    </mat-form-field>
+  </form>
+  <mat-autocomplete #auto="matAutocomplete">
+    @if (isLoading() && searchTerm) {
+      <mat-option>
+        <div class="spinner-div">
+          <mat-spinner [diameter]="20"></mat-spinner>
+        </div>
+      </mat-option>
+    }
+    @if (repos$ | async; as repos) {
+      @for (repo of repos.items; track repo) {
+        @if(!isLoading()) {
+        <mat-option class="mat-option-result" [value]="repo.name">
+          <mat-label>{{ repo.name }}</mat-label>
+          <img class="avatar" [src]="repo?.owner?.avatar_Url" alt="">
+          <mat-icon (click)="addBookmark(repo)">bookmark</mat-icon>
+        </mat-option>
+        }
+      }
+    }
+  </mat-autocomplete>
+</section>
+

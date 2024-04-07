@@ -1,0 +1,27 @@
+@if(state.userEmail()) {
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav class="side-nav" #sidenav mode="over" position="start">
+    <mat-nav-list>
+      <a mat-list-item (click)="sidenav.toggle()" [routerLink]="routes.search">Search</a>
+      <a mat-list-item (click)="sidenav.toggle()" [routerLink]="routes.bookmarks">Bookmarks</a>
+      <a mat-list-item (click)="state.logout(); sidenav.toggle()">Log out</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="toolbar">
+      <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+      <span class="toolbar-spacer"></span>
+      <img src="assets/images/github-icon.svg" alt="">
+      <p style="padding-left: 10px">GITHUB REPO GALLERY</p>
+      <span class="toolbar-spacer"></span>
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+} @else {
+  <router-outlet></router-outlet>
+}

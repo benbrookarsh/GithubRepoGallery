@@ -1,0 +1,36 @@
+.avatar {
+  height: 24px;
+  width: 24px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  padding-top: 8em;
+}
+
+.mdc-list-item__primary-text{
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+
+mat-form-field {
+  width: 500px;
+}
+
+.spinner-div {
+  display: flex;
+  width: 29em;
+  justify-content: center;
+  align-content: center;
+}
+
+
+.mat-option-result {
+  direction: rtl;
+}
