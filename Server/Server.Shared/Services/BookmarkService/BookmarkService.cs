@@ -7,9 +7,9 @@ namespace Server.Shared.Services.BookmarkService;
 
 public class BookmarkService : IBookmarkService
 {
-    private readonly IRepository<BookmarkEntity?> _bookmarkRepository;
+    private readonly IRepository<BookmarkEntity> _bookmarkRepository;
 
-    public BookmarkService(IRepository<BookmarkEntity?> bookmarkRepository)
+    public BookmarkService(IRepository<BookmarkEntity> bookmarkRepository)
     {
         _bookmarkRepository = bookmarkRepository;
     }
