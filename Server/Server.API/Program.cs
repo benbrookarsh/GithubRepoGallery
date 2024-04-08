@@ -22,9 +22,6 @@ app.UseCors(corsPolicy);
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<UserContextMiddleware>();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.UseEndpoints(endpoints => endpoints.MapControllers());
 
 app.Run();

@@ -39,7 +39,7 @@ dotnet restore
 ```
 
 
-4. **Running the Project**
+## Running the Project
 
 navigate to **Server.API** 
 
@@ -66,4 +66,8 @@ Click on register, create an account and start exploring github repositories
 Search GitHub repositories by name.
 
 Responsive and intuitive user interface.
+
+Authorization with JWT token and dotnet Identity User
+
+SQlite database to store user data and Bookmarks
 
