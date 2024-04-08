@@ -1,18 +1,32 @@
+<div class="container">
+
+
+  <p>Total Bookmarks: <strong>{{storage.bookmarks().length}}</strong></p>
+
 @for (bookmark of storage.bookmarks(); track bookmark) {
-  <mat-card class="example-card">
+  <mat-card class="card">
     <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
+      <div mat-card-avatar class="example-header-image">
+        <img style="width: 24px; border-radius: 100%" mat-card-image [src]="bookmark.avatarUrl" alt="Photo of a Shiba Inu">
+      </div>
       <mat-card-title>{{bookmark.repositoryName}}</mat-card-title>
       <mat-card-subtitle>Language: {{bookmark.language}}</mat-card-subtitle>
     </mat-card-header>
-    <img style="width: 24px" mat-card-image [src]="bookmark.avatarUrl" alt="Photo of a Shiba Inu">
     <mat-card-content>
       <p>
         {{bookmark.description}}
       </p>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-button (click)="deleteBookmark(bookmark)">Remove</button>
-    </mat-card-actions>
+    <span style="margin-left: auto">
+      <button mat-icon-button (click)="deleteBookmark(bookmark)">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+    </span>
   </mat-card>
 }
+
+@if(!storage.bookmarks()?.length) {
+  <p class="empty-placeholder">Bookmarked items will appear here</p>
+}
+</div>

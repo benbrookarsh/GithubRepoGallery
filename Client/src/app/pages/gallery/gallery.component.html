@@ -17,10 +17,10 @@
     @if (repos$ | async; as repos) {
       @for (repo of repos.items; track repo) {
         @if(!isLoading()) {
-        <mat-option class="mat-option-result" [value]="repo.name">
+        <mat-option (click)="addBookmark(repo)" class="mat-option-result" [value]="repo.name">
           <mat-label>{{ repo.name }}</mat-label>
           <img class="avatar" [src]="repo?.owner?.avatar_Url" alt="">
-          <mat-icon (click)="addBookmark(repo)">bookmark</mat-icon>
+          <mat-icon >bookmark</mat-icon>
         </mat-option>
         }
       }

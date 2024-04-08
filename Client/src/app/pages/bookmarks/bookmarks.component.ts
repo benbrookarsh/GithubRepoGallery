@@ -8,9 +8,11 @@ import {
   MatCardImage,
   MatCardModule
 } from '@angular/material/card';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {GeneralApiService} from '../../services/general-api.service';
 import {Bookmark} from '../../models/bookmark';
+import {BookmarkService} from '../../services/bookmark.service';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-bookmarks',
@@ -21,7 +23,9 @@ import {Bookmark} from '../../models/bookmark';
     MatCardImage,
     MatCardContent,
     MatCardActions,
-    MatButton
+    MatButton,
+    MatIconButton,
+    MatIcon
   ],
   templateUrl: './bookmarks.component.html',
   styleUrl: './bookmarks.component.css'
@@ -29,13 +33,13 @@ import {Bookmark} from '../../models/bookmark';
 export class BookmarksComponent {
 
   storage = inject(StorageService);
-  api = inject(GeneralApiService);
+  bookmarkService = inject(BookmarkService);
 
   ngOnInit() {
-    this.api.getBookmarks();
+    this.bookmarkService.getBookmarks();
   }
 
   deleteBookmark(bookmark: Bookmark) {
-    return this.api.deleteBookmark(bookmark);
+    return this.bookmarkService.deleteBookmark(bookmark);
   }
 }

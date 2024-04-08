@@ -11,6 +11,7 @@ import {StorageService} from './services/storage.service';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
 import {MatListItem, MatNavList} from '@angular/material/list';
 import {RoutesNames} from './constants/routes';
+import {BookmarkService} from './services/bookmark.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ import {RoutesNames} from './constants/routes';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [HttpClientModule, ApiService, GeneralApiService, StorageService]
+  providers: [HttpClientModule, ApiService, GeneralApiService, StorageService, BookmarkService]
 })
 export class AppComponent {
   state = inject(StorageService);

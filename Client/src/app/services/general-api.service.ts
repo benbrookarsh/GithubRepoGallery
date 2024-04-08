@@ -61,31 +61,6 @@ export class GeneralApiService {
         map((res) => res.data)
       );
   }
-
-  addBookmark(repo: GitHubRepo) {
-    return this.api.post<Bookmark>('/Bookmark/add', repo)
-      .pipe(
-        tap((res) => {
-          this.storage.bookmarks.update(bookmarks => [...bookmarks, res.data ])
-        }
-      )).subscribe()
-  }
-
-  deleteBookmark(bookmark: Bookmark) {
-    return this.api.post<Bookmark>('/Bookmark/delete', bookmark)
-      .pipe(
-        tap(() => {
-            this.storage.bookmarks.update(bookmarks => bookmarks.filter(a => a.id !== bookmark.id))
-          }
-        )).subscribe()
-  }
-
-  getBookmarks() {
-    return this.api.get<Bookmark[]>('/Bookmark')
-      .pipe(
-        tap((res) => this.storage.bookmarks.set(res.data))
-      ).subscribe();
-  }
 }
 
 

@@ -10,6 +10,8 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatCard} from '@angular/material/card';
 import {GitHubRepo} from '../../models/github-model';
 import {MatIcon} from '@angular/material/icon';
+import {BookmarkService} from '../../services/bookmark.service';
+import {Bookmark} from '../../models/bookmark';
 
 @Component({
   selector: 'app-travel-cover',
@@ -37,6 +39,7 @@ import {MatIcon} from '@angular/material/icon';
 export class GalleryComponent {
 
   searchApi = inject(GeneralApiService);
+  bookmarkService = inject(BookmarkService);
   refresh$ = new BehaviorSubject<string>('');
   repos$ = this.refresh$
     .pipe(
@@ -63,6 +66,13 @@ export class GalleryComponent {
   }
 
   addBookmark(repo: GitHubRepo) {
-    return this.searchApi.addBookmark(repo);
+    const bookmark: Bookmark = {
+      avatarUrl: repo?.owner?.avatar_Url,
+      description: repo.description,
+      htmlUrl: repo.htmlUrl,
+      language: repo.language,
+      repositoryName: repo.name
+    };
+    return this.bookmarkService.addBookmark(bookmark);
   }
 }

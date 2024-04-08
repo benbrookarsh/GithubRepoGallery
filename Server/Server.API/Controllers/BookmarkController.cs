@@ -13,7 +13,7 @@ public class BookmarkController : BaseController
     }
 
     [HttpPost("add")]
-    public async Task<ServerResponse<BookmarkEntity?>> AddBookmark([FromBody] GitHubRepo repo)
+    public async Task<ServerResponse<BookmarkEntity?>> AddBookmark([FromBody] BookmarkModel repo)
     {
         var user = GetCurrentUser();
         return await _bookmarkService.AddBookmark(user, repo)

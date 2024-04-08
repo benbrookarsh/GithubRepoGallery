@@ -1,5 +1,5 @@
-using Backend.Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using Server.Shared.Extensions;
 using Server.Shared.Interfaces;
 using Server.Shared.Models;
 
@@ -14,20 +14,10 @@ public class BookmarkService : IBookmarkService
         _bookmarkRepository = bookmarkRepository;
     }
 
-    public async Task<BookmarkEntity?> AddBookmark(User user, GitHubRepo repo)
+    public async Task<BookmarkEntity?> AddBookmark(User user, BookmarkModel bookmark)
     {
-        var bookmark = new BookmarkEntity
-        {
-            UserId = user.Id,
-            RepositoryName = repo.Name,
-            Description = repo.Description,
-            HtmlUrl = repo.Html_Url,
-            AvatarUrl = repo.Owner.Avatar_Url,
-            Language = repo.Language,
-            User = user
-        };
-
-        return await _bookmarkRepository.InsertAsync(bookmark);
+        bookmark.User = user;
+        return await _bookmarkRepository.InsertAsync(bookmark.ToEntity());
     }
 
     public async Task<BookmarkEntity?> DeleteBookmark(User user, BookmarkEntity repo) => 
