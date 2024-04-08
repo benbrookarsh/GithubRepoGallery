@@ -82,6 +82,7 @@ export class LoginComponent {
 
     if (!this.isLoginMode && this.password !== this.confirmPasswordControl.value) {
       this.errorMessage.set('Passwords do not match');
+      this.isLoading.set(false);
       return;
     }
 
