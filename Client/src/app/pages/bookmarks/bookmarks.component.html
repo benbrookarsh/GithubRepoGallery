@@ -1,6 +1,5 @@
 <div class="container">
 
-
   <p>Total Bookmarks: <strong>{{storage.bookmarks().length}}</strong></p>
 
 @for (bookmark of storage.bookmarks(); track bookmark) {
@@ -21,7 +20,6 @@
       <button mat-icon-button (click)="deleteBookmark(bookmark)">
         <mat-icon>delete</mat-icon>
       </button>
-
     </span>
   </mat-card>
 }

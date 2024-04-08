@@ -13,6 +13,7 @@ export class StorageService {
   bookmarks = signal<Bookmark[]>([]);
 
   private storage: Storage = window.localStorage;
+  session = window.sessionStorage;
 
   setToken(token: string) {
     // debug test if token is updated

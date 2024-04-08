@@ -1,5 +1,4 @@
 import {inject, Injectable} from '@angular/core';
-import {GitHubRepo} from '../models/github-model';
 import {Bookmark} from '../models/bookmark';
 import {tap} from 'rxjs';
 import {ApiService} from './api.service';
@@ -12,28 +11,33 @@ export class BookmarkService {
   storage = inject(StorageService);
 
 
-  addBookmark(repo: Bookmark) {
-    return this.api.post<Bookmark>('/Bookmark/add', repo)
+  addBookmark(repo: Bookmark): void {
+    this.api.post<Bookmark>('/Bookmark/add', repo)
       .pipe(
         tap((res) => {
-            this.storage.bookmarks.update(bookmarks => [...bookmarks, res.data ])
+            this.storage.bookmarks.update(bookmarks => [...bookmarks, res.data ]);
+            this.storage.session.setItem('BOOKMARKS', JSON.stringify(this.storage.bookmarks()));
           }
         )).subscribe()
   }
 
-  deleteBookmark(bookmark: Bookmark) {
-    return this.api.post<Bookmark>('/Bookmark/delete', bookmark)
+  deleteBookmark(bookmark: Bookmark): void {
+    this.api.post<Bookmark>('/Bookmark/delete', bookmark)
       .pipe(
         tap(() => {
-            this.storage.bookmarks.update(bookmarks => bookmarks.filter(a => a.id !== bookmark.id))
+            this.storage.bookmarks.update(bookmarks => bookmarks.filter(a => a.id !== bookmark.id));
+            this.storage.session.setItem('BOOKMARKS', JSON.stringify(this.storage.bookmarks()));
           }
         )).subscribe()
   }
 
-  getBookmarks() {
-    return this.api.get<Bookmark[]>('/Bookmark')
+  getBookmarks(): void {
+    this.api.get<Bookmark[]>('/Bookmark')
       .pipe(
-        tap((res) => this.storage.bookmarks.set(res.data))
+        tap((res) => {
+          this.storage.bookmarks.set(res.data);
+          this.storage.session.setItem('BOOKMARKS', JSON.stringify(this.storage.bookmarks()));
+        })
       ).subscribe();
   }
 }
