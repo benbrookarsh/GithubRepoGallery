@@ -45,7 +45,7 @@ public class ServerResponseMiddleware
         var responseJson = JsonSerializer.Serialize(serverResponse, options);
 
         context.Response.ContentType = "application/json";
-        context.Response.ContentLength = null; // Important to remove the content-length since we're changing the body length
+        context.Response.ContentLength = null; 
 
         await context.Response.WriteAsync(responseJson);
     }
