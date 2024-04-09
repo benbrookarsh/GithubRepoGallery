@@ -29,9 +29,9 @@ export class ApiService {
   }
 
   delete<T>(url: string, body: any) {
-    return this.http.post<ServerResult<T>>(this.baseUrl + url, body, {observe: 'response'})
+    return this.http.delete<ServerResult<T>>(this.baseUrl + url, {body})
       .pipe(
-        map((response) => response.body)
+        map((response) => response.data)
       );
   }
 }

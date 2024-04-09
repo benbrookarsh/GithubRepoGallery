@@ -20,11 +20,11 @@ export class BookmarkService {
         )).subscribe()
   }
 
-  deleteBookmark(bookmark: Bookmark): void {
-    this.api.delete<Bookmark>('/Bookmark', bookmark)
+  deleteBookmark(bookmarkId: number): void {
+    this.api.delete<Bookmark>('/Bookmark', bookmarkId)
       .pipe(
         tap(() => {
-            this.storage.bookmarks.update(bookmarks => bookmarks.filter(a => a.id !== bookmark.id));
+            this.storage.bookmarks.update(bookmarks => bookmarks.filter(a => a.id !== bookmarkId));
             this.storage.session.setItem('BOOKMARKS', JSON.stringify(this.storage.bookmarks()));
           }
         )).subscribe()
