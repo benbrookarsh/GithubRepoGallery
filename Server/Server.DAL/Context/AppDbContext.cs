@@ -10,6 +10,6 @@ public class AppDbContext : IdentityDbContext<User>
     {
     }
     
-    public DbSet<BookmarkEntity> Bookmarks { get; set; }
+    public DbSet<BookmarkEntity> Bookmarks { get; init; }
 
 }

@@ -17,7 +17,8 @@ public static class BuilderExtensions
     public static void AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        builder.Services.AddScoped<IRepoService, RepoService>();
+        builder.Services.AddScoped<IGithubRepositoryService, GithubGithubRepositoryService>();
+        builder.Services.AddHttpClient<IGithubRepositoryService, GithubGithubRepositoryService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IBookmarkService, BookmarkService>();
     }
@@ -57,8 +58,8 @@ public static class BuilderExtensions
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-                ValidateIssuer = false,
-                ValidateAudience = false
+                ValidateIssuer = false, // this prop is set to false for demonstration props only
+                ValidateAudience = false// this prop is set to false for demonstration props only
             };
         });
         

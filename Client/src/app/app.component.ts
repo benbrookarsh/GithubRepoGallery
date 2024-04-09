@@ -12,6 +12,7 @@ import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/mater
 import {MatListItem, MatNavList} from '@angular/material/list';
 import {RoutesNames} from './constants/routes';
 import {BookmarkService} from './services/bookmark.service';
+import {AuthApiService} from './services/auth-api.service';
 
 @Component({
   selector: 'app-root',
@@ -20,11 +21,11 @@ import {BookmarkService} from './services/bookmark.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [HttpClientModule, ApiService, GeneralApiService, StorageService, BookmarkService]
+  providers: [HttpClientModule, ApiService, GeneralApiService, StorageService, BookmarkService, AuthApiService]
 })
 export class AppComponent {
   state = inject(StorageService);
-  authApi = inject(GeneralApiService);
+  authApi = inject(AuthApiService);
 
   routes = RoutesNames;
 

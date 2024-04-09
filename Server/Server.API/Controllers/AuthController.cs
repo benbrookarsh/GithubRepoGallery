@@ -1,46 +1,42 @@
-namespace Server.API.Controllers;
+using Server.Shared.Exceptions;
 
+namespace Server.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(AuthenticationSchemes = "Bearer")]
 public class AuthController : BaseController
 {
     private readonly IUserService _userService;
 
     public AuthController(IUserService userService)
     {
-        _userService = userService;
+        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
     }
 
-    [HttpPost("register")]
     [AllowAnonymous]
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] LoginModel model)
     {
         await _userService.Register(model.Email, model.Password);
         return await Login(model);
     }
 
-    [HttpPost("login")]
     [AllowAnonymous]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
-        var message = await _userService.Login(model);
-
-        if (message is null)
-            return Unauthorized();
-
-        return Ok(message.ToServerResult());
+        try
+        {
+            var message = await _userService.Login(model);
+         
+            return Ok(message);
+        }
+        catch (UserAuthenticationException ex)
+        {
+            return BadRequest(ex.SafeMessage);
+        }
     }
 
-    [HttpGet]
-    [Route("refresh-token")]
-    public IActionResult RefreshToken()
-    {
-        var user = GetCurrentUser();
-
-        var tokenMessage = _userService.GetTokenMessage(user);
-
-        return Ok(tokenMessage.ToServerResult());
-    }
+    [HttpGet("refresh-token")]
+    public IActionResult RefreshToken() => Ok(_userService.GetTokenMessage(User));
 }

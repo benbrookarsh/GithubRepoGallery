@@ -4,9 +4,10 @@ import {RoutesNames} from '../constants/routes';
 
 export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
   const router = inject(Router);
-  const token = !!window.localStorage.getItem('TOKEN');
-  if(!token) {
+  const isTokenExists = !!window.localStorage.getItem('TOKEN');
+  if(!isTokenExists) {
     router.navigate([RoutesNames.login])
   }
-  return token;
+  return isTokenExists;
 };
+

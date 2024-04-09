@@ -2,7 +2,6 @@ namespace Server.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(AuthenticationSchemes = "Bearer")]
 public class UserController : BaseController
 {
     private readonly IUserService _userService;
@@ -13,5 +12,5 @@ public class UserController : BaseController
     }
 
     [HttpGet]
-    public async Task<IEnumerable<User?>> Get() => await _userService.GetAll();
+    public async Task<IEnumerable<User>> Get() => await _userService.GetAll();
 }

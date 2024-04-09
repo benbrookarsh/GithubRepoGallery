@@ -1,5 +1,6 @@
 namespace Server.API.Controllers;
 
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class BaseController : ControllerBase
 {
     /// <summary>
@@ -7,7 +8,7 @@ public class BaseController : ControllerBase
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    protected User GetCurrentUser()
+    private User GetCurrentUser()
     {
         var user = HttpContext.Items["User"] as User;
         if (user == null)
@@ -16,4 +17,6 @@ public class BaseController : ControllerBase
         }
         return user;
     }
+
+    protected new User User => GetCurrentUser();
 }

@@ -3,3 +3,5 @@ export class RoutesNames {
   static readonly bookmarks =  'Bookmarks';
   static readonly search =  'search';
 }
+
+

@@ -27,6 +27,13 @@ export class ApiService {
     headers = headers.append('Content-Type', 'application/json');
     return headers;
   }
+
+  delete<T>(url: string, body: any) {
+    return this.http.post<ServerResult<T>>(this.baseUrl + url, body, {observe: 'response'})
+      .pipe(
+        map((response) => response.body)
+      );
+  }
 }
 
 
