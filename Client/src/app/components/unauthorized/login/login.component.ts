@@ -12,10 +12,11 @@ import {
 } from '@angular/forms';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
-import {GeneralApiService} from '../../../services/general-api.service';
 import {catchError, finalize, tap} from 'rxjs';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {Patterns} from '../../../constants/routes';
+
+import {Patterns} from '../../../constants/patterns';
+import {AuthApiService} from '../../../services/auth-api.service';
 
 type email = string;
 
@@ -39,7 +40,7 @@ type email = string;
 })
 export class LoginComponent {
 
-  authApi = inject(GeneralApiService);
+  authApi = inject(AuthApiService);
   isLoginMode = signal<boolean>(true);
   authForm = new FormGroup({
     email: new FormControl<email>('', [Validators.required, Validators.email]),

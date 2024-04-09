@@ -25,5 +25,9 @@ public class BookMarkNotFoundException : Exception
 public class UserExistsException : Exception
 {
     public UserExistsException(string userName) : base($"user with name {userName} already exists"){}
+}
 
+public class GitHubApiException : Exception
+{
+    public GitHubApiException(string search) : base($"searching for {search} was not successful") {}
 }

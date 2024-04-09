@@ -12,5 +12,10 @@ public class GithubRepositoryController : BaseController
     }
 
     [HttpGet]
-    public Task<GitHubRepoResult?> Search(string search) => _githubRepositoryService.Search(search);
+    public async Task<IActionResult> Search(string search)
+    {
+        var response = await  _githubRepositoryService.Search(search);
+        
+        return Ok(response);
+    }
 }

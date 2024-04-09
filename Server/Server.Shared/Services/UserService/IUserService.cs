@@ -1,4 +1,3 @@
-using Backend.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 using Server.Shared.Models;
 
@@ -12,5 +11,5 @@ public interface IUserService
 
     Task<TokenMessage> Login(LoginModel model);
 
-    TokenMessage? GetTokenMessage(User user);
+    TokenMessage GetTokenMessage(User user);
 }

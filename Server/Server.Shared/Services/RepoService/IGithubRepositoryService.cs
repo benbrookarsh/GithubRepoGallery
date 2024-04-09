@@ -4,5 +4,5 @@ namespace Server.Shared.Services.RepoService;
 
 public interface IGithubRepositoryService
 {
-    Task<GitHubRepoResult?> Search(string search);
+    Task<GitHubRepoResult> Search(string search);
 }
