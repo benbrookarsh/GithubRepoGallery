@@ -14,9 +14,10 @@ import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {GeneralApiService} from '../../../services/general-api.service';
 import {catchError, finalize, tap} from 'rxjs';
-import {RoutesNames} from '../../../constants/routes';
-import {Router} from '@angular/router';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
+import {Patterns} from '../../../constants/routes';
+
+type email = string;
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,6 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
     MatError,
     MatProgressSpinner
   ],
-  providers: [],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -40,20 +40,18 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
 export class LoginComponent {
 
   authApi = inject(GeneralApiService);
-  isLoginMode = true;
-  authForm = new FormGroup(
-    {
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password:   new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirmPassword:  new FormControl( '')
-    }
-  );
+  isLoginMode = signal<boolean>(true);
+  authForm = new FormGroup({
+    email: new FormControl<email>('', [Validators.required, Validators.email]),
+    password: new FormControl<string>('', [Validators.required, Validators.pattern(Patterns.Password)]),
+    confirmPassword: new FormControl('')
+  });
   errorMessage = signal<string>('');
   isLoading = signal<boolean>(false);
 
   switchMode() {
-    this.isLoginMode = !this.isLoginMode;
-    if (!this.isLoginMode) {
+    this.isLoginMode.update(login => !login);
+    if (!this.isLoginMode()) {
       this.confirmPasswordControl?.setValidators([Validators.required, this.matchValues('password')]);
     } else {
       this.confirmPasswordControl?.clearValidators();
@@ -61,40 +59,38 @@ export class LoginComponent {
     this.confirmPasswordControl?.updateValueAndValidity();
   }
 
-  get confirmPasswordControl() {
-    return this.authForm.get('confirmPassword');
+  get confirmPasswordControl(): FormControl {
+    return this.authForm.controls?.confirmPassword;
   }
 
   get email(): string {
-    return this.authForm.get('email')?.value;
+    return this.authForm.controls?.email?.value;
   }
 
   get password(): string {
-    return this.authForm.get('password')?.value;
+    return this.authForm?.controls?.password?.value;
   }
 
   onSubmit() {
     this.isLoading.set(true);
-    const loginOrRegister = this.isLoginMode? (email, password) => this.authApi.login(email, password) :
-      (email, password) => this.authApi.register(email, password);
 
-    const generalErrorMessage = 'user name or password incorrect';
-
-    if (!this.isLoginMode && this.password !== this.confirmPasswordControl.value) {
+    if (!this.isLoginMode() && this.password !== this.confirmPasswordControl.value) {
       this.errorMessage.set('Passwords do not match');
       this.isLoading.set(false);
       return;
     }
 
-    loginOrRegister(this.email, this.password )
-        .pipe(
-          tap((res) => this.errorMessage.set(res?.message ?? generalErrorMessage)),
-          catchError(() => {
-            this.errorMessage.set(generalErrorMessage);
-            return [];
-          }),
-          finalize(() => this.isLoading.set(false))
-        ).subscribe();
+    const generalErrorMessage = 'user name or password incorrect';
+
+    this.authApi.loginOrRegister(this.email, this.password, this.isLoginMode())
+      .pipe(
+        tap((res) => this.errorMessage.set(res?.message ?? generalErrorMessage)),
+        catchError(() => {
+          this.errorMessage.set(generalErrorMessage);
+          return [];
+        }),
+        finalize(() => this.isLoading.set(false))
+      ).subscribe();
   }
 
   private matchValues(matchTo: string): ValidatorFn {
@@ -102,7 +98,7 @@ export class LoginComponent {
       return !!control.parent &&
       !!control.parent.value &&
       control.value === control.parent.controls[matchTo].value
-        ? null : { isMatching: false };
+        ? null : {isMatching: false};
     };
   }
 }

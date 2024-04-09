@@ -4,13 +4,13 @@ using Backend.Shared.Models;
 
 namespace Server.Shared.Services.RepoService;
 
-public class RepoService : IRepoService
+public class GithubGithubRepositoryService : IGithubRepositoryService
 {
     private readonly HttpClient _httpClient;
 
-    public RepoService()
+    public GithubGithubRepositoryService(HttpClient httpClient)
     {
-        _httpClient = new HttpClient();
+        _httpClient = httpClient;
         _httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("ASP.NET", "11.0"));
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
     }

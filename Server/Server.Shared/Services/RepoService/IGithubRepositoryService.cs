@@ -2,7 +2,7 @@ using Backend.Shared.Models;
 
 namespace Server.Shared.Services.RepoService;
 
-public interface IRepoService
+public interface IGithubRepositoryService
 {
     Task<GitHubRepoResult?> Search(string search);
 }

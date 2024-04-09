@@ -4,7 +4,7 @@ public class GitHubRepoResult
 {
     public int Total_Count { get; set; }
     public bool Incomplete_Results { get; set; }
-    public List<GitHubRepo> Items { get; set; } = new List<GitHubRepo>();
+    public IEnumerable<GitHubRepo> Items { get; set; } = new List<GitHubRepo>();
 }
 
 public class GitHubRepo
@@ -24,6 +24,7 @@ public class GitHubRepo
     public DateTime? Created_At { get; set; }
     public DateTime? Updated_At { get; set; }
     public DateTime? Pushed_At { get; set; }
+    
     public string? Git_Url { get; set; }
     public string? Ssh_Url { get; set; }
     public string? Clone_Url { get; set; }

@@ -13,5 +13,5 @@ public class UserController : BaseController
     }
 
     [HttpGet]
-    public async Task<IEnumerable<User?>> Get() => await _userService.GetAll();
+    public async Task<IEnumerable<User>> Get() => await _userService.GetAll();
 }

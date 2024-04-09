@@ -11,4 +11,5 @@ public class LoginModel
     public string Password { get; set; }
 }
 
+public record LoginModel2([Required] string Email, [Required] string Password);
 public record TokenMessage(string Token, DateTime Expiration, string Email);

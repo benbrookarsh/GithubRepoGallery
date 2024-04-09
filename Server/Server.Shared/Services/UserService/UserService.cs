@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Server.Shared.Exceptions;
 using Server.Shared.Extensions;
 using Server.Shared.Interfaces;
 using Server.Shared.Models;
@@ -27,12 +28,12 @@ public class UserService : IUserService
         _configuration = configuration;
     }
 
-    public async Task<IEnumerable<User?>> GetAll()
+    public async Task<IEnumerable<User>> GetAll()
     {
         return await _userRepository.GetAll().ToListAsync();
     }
 
-    public async Task<ServerResponse<IdentityResult?>> Register(string email, string password)
+    public async Task<ServerResponse<IdentityResult>> Register(string email, string password)
     {
         User user = new()
         {
@@ -44,22 +45,27 @@ public class UserService : IUserService
         var existingUser = await _userManager.FindByNameAsync(user.UserName);
         
         if (existingUser is not null)
-            return new ServerResponse<IdentityResult?>(null, "User already exists", false);
+            return new ServerResponse<IdentityResult>(null, "User already exists", false);
 
         return await _userManager.CreateAsync(user, password).ToServerResponseAsync();
     }
 
-    public async Task<TokenMessage?> Login(LoginModel model)
+    public async Task<TokenMessage> Login(LoginModel model)
     {
         var user = await _userManager.FindByEmailAsync(model.Email);
-        if (user is not null && await _userManager.CheckPasswordAsync(user, model.Password))
-        {
-            return GetTokenMessage(user);
-        }
-        return null;
+        
+        if (user is null) 
+            throw new UserNotFoundException(model.Email);
+        
+        var isValidPassword = await _userManager.CheckPasswordAsync(user, model.Password);
+        
+        if (!isValidPassword) 
+            throw new UserIncorrectPasswordException(model.Email);
+        
+        return GetTokenMessage(user);
     }
 
-    public TokenMessage? GetTokenMessage(User user)
+    public TokenMessage GetTokenMessage(User user)
     {
         var authClaims = new List<Claim>
         {

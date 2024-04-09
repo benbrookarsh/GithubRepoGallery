@@ -1,3 +1,5 @@
+using Server.Shared.Exceptions;
+
 namespace Server.API.Controllers;
 
 
@@ -10,7 +12,7 @@ public class AuthController : BaseController
 
     public AuthController(IUserService userService)
     {
-        _userService = userService;
+        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
     }
 
     [HttpPost("register")]
@@ -25,22 +27,23 @@ public class AuthController : BaseController
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
-        var message = await _userService.Login(model);
-
-        if (message is null)
-            return Unauthorized();
-
-        return Ok(message.ToServerResult());
+        try
+        {
+            var message = await _userService.Login(model);
+            return Ok(message);
+        }
+        catch (UserAuthenticationException ex)
+        {
+            return BadRequest(ex.SafeMessage);
+        }
+        
     }
 
     [HttpGet]
     [Route("refresh-token")]
     public IActionResult RefreshToken()
     {
-        var user = GetCurrentUser();
-
-        var tokenMessage = _userService.GetTokenMessage(user);
-
+        var tokenMessage = _userService.GetTokenMessage(User);
         return Ok(tokenMessage.ToServerResult());
     }
 }

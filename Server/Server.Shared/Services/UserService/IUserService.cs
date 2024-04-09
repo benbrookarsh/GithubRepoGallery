@@ -6,11 +6,11 @@ namespace Server.Shared.Services.UserService;
 
 public interface IUserService
 {
-    Task<IEnumerable<User?>> GetAll();
+    Task<IEnumerable<User>> GetAll();
     
-    Task<ServerResponse<IdentityResult?>> Register(string email, string password);
+    Task<ServerResponse<IdentityResult>> Register(string email, string password);
 
-    Task<TokenMessage?> Login(LoginModel model);
+    Task<TokenMessage> Login(LoginModel model);
 
     TokenMessage? GetTokenMessage(User user);
 }
