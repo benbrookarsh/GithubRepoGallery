@@ -2,7 +2,6 @@ namespace Server.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(AuthenticationSchemes = "Bearer")]
 public class UserController : BaseController
 {
     private readonly IUserService _userService;

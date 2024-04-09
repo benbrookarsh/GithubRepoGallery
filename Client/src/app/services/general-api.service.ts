@@ -5,8 +5,7 @@ import {ServerResult, TokenMessage} from '../models/server-result';
 import {ApiService} from './api.service';
 import {StorageService} from './storage.service';
 import {HttpParams} from '@angular/common/http';
-import {GitHubRepo, GitHubRepoResult} from '../models/github-model';
-import {Bookmark} from '../models/bookmark';
+import {GitHubRepoResult} from '../models/github-model';
 import {Router} from '@angular/router';
 import {RoutesNames} from '../constants/routes';
 
@@ -53,13 +52,16 @@ export class GeneralApiService {
   }
 
   searchRepos(search: string) {
-    const params = new HttpParams()
-      .append('search', search);
+    const params = new HttpParams().append('search', search);
 
-    return this.api.get<GitHubRepoResult>('/Repo/search', params)
+    return this.api.get<GitHubRepoResult>('/GithubRepository', params)
       .pipe(
         map((res) => res.data)
       );
+  }
+
+  loginOrRegister(email: string, password: string, isLoginMode: boolean): Observable<ServerResult<TokenMessage>> {
+    return isLoginMode? this.login(email, password) : this.register(email, password);
   }
 }
 

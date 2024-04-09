@@ -1,6 +1,6 @@
 namespace Server.API.Controllers;
 
-[Authorize]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class BaseController : ControllerBase
 {
     /// <summary>
@@ -18,5 +18,5 @@ public class BaseController : ControllerBase
         return user;
     }
 
-    protected User User => GetCurrentUser();
+    protected new User User => GetCurrentUser();
 }

@@ -33,7 +33,7 @@ public class UserService : IUserService
         return await _userRepository.GetAll().ToListAsync();
     }
 
-    public async Task<ServerResponse<IdentityResult>> Register(string email, string password)
+    public async Task<IdentityResult> Register(string email, string password)
     {
         User user = new()
         {
@@ -45,9 +45,9 @@ public class UserService : IUserService
         var existingUser = await _userManager.FindByNameAsync(user.UserName);
         
         if (existingUser is not null)
-            return new ServerResponse<IdentityResult>(null, "User already exists", false);
+            throw new UserExistsException(user.UserName);
 
-        return await _userManager.CreateAsync(user, password).ToServerResponseAsync();
+        return await _userManager.CreateAsync(user, password);
     }
 
     public async Task<TokenMessage> Login(LoginModel model)

@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {Bookmark} from '../models/bookmark';
-import {tap} from 'rxjs';
+import {shareReplay, tap} from 'rxjs';
 import {ApiService} from './api.service';
 import {StorageService} from './storage.service';
 
@@ -10,9 +10,8 @@ export class BookmarkService {
   api = inject(ApiService);
   storage = inject(StorageService);
 
-
   addBookmark(repo: Bookmark): void {
-    this.api.post<Bookmark>('/Bookmark/add', repo)
+    this.api.post<Bookmark>('/Bookmark', repo)
       .pipe(
         tap((res) => {
             this.storage.bookmarks.update(bookmarks => [...bookmarks, res.data ]);
@@ -22,7 +21,7 @@ export class BookmarkService {
   }
 
   deleteBookmark(bookmark: Bookmark): void {
-    this.api.post<Bookmark>('/Bookmark/delete', bookmark)
+    this.api.delete<Bookmark>('/Bookmark', bookmark)
       .pipe(
         tap(() => {
             this.storage.bookmarks.update(bookmarks => bookmarks.filter(a => a.id !== bookmark.id));
@@ -37,7 +36,8 @@ export class BookmarkService {
         tap((res) => {
           this.storage.bookmarks.set(res.data);
           this.storage.session.setItem('BOOKMARKS', JSON.stringify(this.storage.bookmarks()));
-        })
+        }),
+        shareReplay(1)
       ).subscribe();
   }
 }

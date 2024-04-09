@@ -8,7 +8,7 @@ public interface IUserService
 {
     Task<IEnumerable<User>> GetAll();
     
-    Task<ServerResponse<IdentityResult>> Register(string email, string password);
+    Task<IdentityResult> Register(string email, string password);
 
     Task<TokenMessage> Login(LoginModel model);
 

@@ -21,3 +21,9 @@ public class BookMarkNotFoundException : Exception
 {
     public BookMarkNotFoundException(string userName) : base($"user with name {userName} is not found"){}
 }
+
+public class UserExistsException : Exception
+{
+    public UserExistsException(string userName) : base($"user with name {userName} already exists"){}
+
+}

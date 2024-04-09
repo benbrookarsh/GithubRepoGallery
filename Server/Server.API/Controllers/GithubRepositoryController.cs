@@ -2,7 +2,6 @@ namespace Server.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(AuthenticationSchemes = "Bearer")]
 public class GithubRepositoryController : BaseController
 {
     private readonly IGithubRepositoryService _githubRepositoryService;
@@ -13,8 +12,5 @@ public class GithubRepositoryController : BaseController
     }
 
     [HttpGet]
-    public Task<ServerResponse<GitHubRepoResult?>> Search(string search)
-    {
-        return _githubRepositoryService.Search(search).ToServerResponseAsync();
-    }
+    public Task<GitHubRepoResult?> Search(string search) => _githubRepositoryService.Search(search);
 }
