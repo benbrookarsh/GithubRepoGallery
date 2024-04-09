@@ -11,8 +11,8 @@ export class AuthApiService {
 
 
   private api = inject(ApiService);
-  storage = inject(StorageService);
-  router = inject(Router);
+  private storage = inject(StorageService);
+  private router = inject(Router);
 
 
   login(email: string, password: string): Observable<ServerResult<TokenMessage>> {

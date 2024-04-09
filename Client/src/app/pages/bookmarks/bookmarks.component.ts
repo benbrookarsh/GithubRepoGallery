@@ -37,7 +37,7 @@ export class BookmarksComponent {
     this.bookmarkService.getBookmarks();
   }
 
-  deleteBookmark(bookmark: Bookmark) {
-    return this.bookmarkService.deleteBookmark(bookmark);
+  deleteBookmark(bookmarkId: number) {
+    return this.bookmarkService.deleteBookmark(bookmarkId);
   }
 }
