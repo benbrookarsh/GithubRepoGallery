@@ -8,7 +8,6 @@ import {
   MatCardModule
 } from '@angular/material/card';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {Bookmark} from '../../models/bookmark';
 import {BookmarkService} from '../../services/bookmark.service';
 import {MatIcon} from '@angular/material/icon';
 
